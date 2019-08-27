@@ -1,7 +1,7 @@
 //============================================================================
 // Name        : APULockCommand.cpp
 // Author      : Mark Meadows
-// Version     : 00.00.01
+// Version     : 00.00.30
 // Copyright   : Copyright (c) 2019 Mark MEadows
 // Description : APULockCommand in C++, Ansi-style
 //============================================================================
