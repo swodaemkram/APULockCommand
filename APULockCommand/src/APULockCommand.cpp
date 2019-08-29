@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 {
 /*
 ==================================================================================================================
-Lets process the service startup commands
+Lets process the startup commands
 ==================================================================================================================
 */
 int procnumber = 0;
@@ -55,12 +55,13 @@ if (argv[2] == NULL)
 strncpy(command,argv[2],strlen(argv[2]));
 /*
 ===================================================================================================================
-Finished processing the service startup commands
+Finished processing the startup commands
 ===================================================================================================================
 connect and Send The Command
 ===================================================================================================================
 */
 
+//----------------------Make connection or time out----------------------------------------------------------------
 do
 {
 	memset(&address, 0x00, sizeof(address));
@@ -76,12 +77,49 @@ do
 timeout++;
 }
 while(res < 0);
-
-    printf("Command %s sent\n",command);
+//---------------------------End of make connection ---------------------------------------------------------------
+//----------------------------Send pending command-----------------------------------------------------------------
+printf("Command %s sent\n",command);
 	//printf("connect = %d\n",res);//DEBUG
 	res = write(sock, command, strlen(command));
 	//printf("write = %d\n",res);//DEBUG
-	close(sock);
-	return res;
+	//close(sock);
+	//return res;
+//-----------------------------End of sending pending command------------------------------------------------------
+//-----------------------------Get response from service-----------------------------------------------------------
+int rval = 0;
+char buf[1024] = {};
+
+do
+{
+	bzero(buf, sizeof(buf));      //Zero out buffer
+	    rval = read(sock, buf, 1024); //Read from the socket
+
+	    if(rval > 0 )
+		{
+		printf("Response from service was %s\n",buf);
+		}
+
 }
+while(rval < 0);
+//-------------------------------End of Get Response-----------------------------------------------------------------
+close(sock);
+return(0);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
