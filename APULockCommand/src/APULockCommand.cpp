@@ -76,6 +76,7 @@ do
 timeout++;
 }
 while(res < 0);
+
     printf("Command %s sent\n",command);
 	//printf("connect = %d\n",res);//DEBUG
 	res = write(sock, command, strlen(command));
