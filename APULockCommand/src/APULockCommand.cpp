@@ -70,9 +70,7 @@ do
 	fcntl(sock, F_SETFL, O_NONBLOCK); // Set Socket for NON-Blocking
 	strncpy(address.sun_path, domain_socket, strlen(domain_socket));
 	res = connect(sock, (struct sockaddr *)&address, sizeof(address));
-	//usleep(100000);
-
-	usleep(50000);
+	usleep(1000000);
 
 	if (timeout > 50)
 	{
