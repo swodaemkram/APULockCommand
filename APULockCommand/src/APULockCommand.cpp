@@ -50,6 +50,7 @@ sprintf(domain_socket,"/var/run/APU_LockService%d.socket",procnumber);
 if (argv[2] == NULL)
 	{
 		printf("Must have a command to send service\n\n");
+		exit(1);
 	}
 
 strncpy(command,argv[2],strlen(argv[2]));
@@ -79,28 +80,36 @@ timeout++;
 while(res < 0);
 //---------------------------End of make connection ---------------------------------------------------------------
 //----------------------------Send pending command-----------------------------------------------------------------
-printf("Command %s sent\n",command);
 	//printf("connect = %d\n",res);//DEBUG
 usleep(100000);
 res = write(sock, command, strlen(command));
-	//printf("write = %d\n",res);//DEBUG
-	//close(sock);
-	//return res;
+printf("Command %s sent\n",command);
+//printf("write = %d\n",res);//DEBUG
+//close(sock);
+//return res;
 //-----------------------------End of sending pending command------------------------------------------------------
 //-----------------------------Get response from service-----------------------------------------------------------
 int rval = 0;
 char buf[1024] = {};
+int q = 0;
 
 do
 {
-	bzero(buf, sizeof(buf));      //Zero out buffer
-	    rval = read(sock, buf, 1024); //Read from the socket
+if( q >= 10)
+{
+	close(sock);
+	printf("No reply From Server\n");
+	exit(1);
+}
 
+	    bzero(buf, sizeof(buf));      //Zero out buffer
+	    rval = read(sock, buf, 1024); //Read from the socket
 	    if(rval > 0 )
 		{
 		printf("Response from service was %s\n",buf);
 		}
-
+q++;
+sleep(1);
 }
 while(rval < 0);
 //-------------------------------End of Get Response-----------------------------------------------------------------
