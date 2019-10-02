@@ -92,11 +92,15 @@ printf("Command %s sent\n",command);
 //-----------------------------Get response from service-----------------------------------------------------------
 int rval = 0;
 char buf[1024] = {};
-
+int atimeout = 0;
 
 do
 {
-
+		if (atimeout >= 5)
+		{
+			printf("No Reply From Server.... Time out !\n");
+			exit(0);
+		}
 	    //bzero(buf, sizeof(buf));      //Zero out buffer
 	    memset(buf,0,1024);
 		rval = read(sock, buf, 1024); //Read from the socket
@@ -104,8 +108,10 @@ do
 	    if(rval > 0 )
 		{
 		printf("Response from service was %s\n",buf);
+		exit(1);
 		}
-
+sleep(1);
+atimeout++ ;
 
 }
 while(rval < 0);
