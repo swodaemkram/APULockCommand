@@ -80,7 +80,7 @@ timeout++;
 while(res < 0);
 //---------------------------End of make connection ---------------------------------------------------------------
 //----------------------------Send pending command-----------------------------------------------------------------
-	//printf("connect = %d\n",res);//DEBUG
+//printf("connect = %d\n",res);//DEBUG
 usleep(100000);
 res = write(sock, command, strlen(command));
 printf("Command %s sent\n",command);
@@ -91,25 +91,20 @@ printf("Command %s sent\n",command);
 //-----------------------------Get response from service-----------------------------------------------------------
 int rval = 0;
 char buf[1024] = {};
-int q = 0;
+
 
 do
 {
-if( q >= 10)
-{
-	close(sock);
-	printf("No reply From Server\n");
-	exit(1);
-}
 
 	    bzero(buf, sizeof(buf));      //Zero out buffer
 	    rval = read(sock, buf, 1024); //Read from the socket
+	    printf("rval = %d\n",rval);   //DEBUG MARK
 	    if(rval > 0 )
 		{
 		printf("Response from service was %s\n",buf);
 		}
-q++;
-sleep(1);
+
+
 }
 while(rval < 0);
 //-------------------------------End of Get Response-----------------------------------------------------------------
