@@ -67,6 +67,7 @@ do
 {
 	memset(&address, 0x00, sizeof(address));
 	address.sun_family = AF_UNIX;
+	fcntl(sock, F_SETFL, O_NONBLOCK); // Set Socket for NON-Blocking
 	strncpy(address.sun_path, domain_socket, strlen(domain_socket));
 	res = connect(sock, (struct sockaddr *)&address, sizeof(address));
 	usleep(100000);
