@@ -96,8 +96,9 @@ char buf[1024] = {};
 do
 {
 
-	    bzero(buf, sizeof(buf));      //Zero out buffer
-	    rval = read(sock, buf, 1024); //Read from the socket
+	    //bzero(buf, sizeof(buf));      //Zero out buffer
+	    memset(buf,0,1024);
+		rval = read(sock, buf, 1024); //Read from the socket
 	    printf("rval = %d\n",rval);   //DEBUG MARK
 	    if(rval > 0 )
 		{
