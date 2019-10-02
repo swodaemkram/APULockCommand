@@ -81,7 +81,8 @@ while(res < 0);
 //----------------------------Send pending command-----------------------------------------------------------------
 printf("Command %s sent\n",command);
 	//printf("connect = %d\n",res);//DEBUG
-	res = write(sock, command, strlen(command));
+usleep(100000);
+res = write(sock, command, strlen(command));
 	//printf("write = %d\n",res);//DEBUG
 	//close(sock);
 	//return res;
